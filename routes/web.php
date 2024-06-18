@@ -37,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/add_wallet', [WalletController::class, 'store'])->name('wallet.store');
     Route::get('wallet_details-{customer_id}-{wallet_id}', [WalletController::class, 'showDetails'])->name('walletDetails');
     //store new transactions
-    Route::post('/transactions_store', [TransactionController::class, 'store'])->name('transaction.store');
+    Route::post('/transactions_store-{wallet_id}', [TransactionController::class, 'store'])->name('transaction.store');
 });
 
 //showing a wallet details

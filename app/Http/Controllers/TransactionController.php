@@ -35,7 +35,7 @@ class TransactionController extends Controller
      * @param  \App\Http\Requests\StoreTransactionRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTransactionRequest $request)
+    public function store(StoreTransactionRequest $request, $wallet_id)
     {
         // Validate the incoming request data
         $validatedData = $request->validate([
@@ -49,13 +49,13 @@ class TransactionController extends Controller
 
         // Fetch the authenticated user and their wallets
         $customer = auth()->user();
-        $wallet = $customer->wallets->first(); 
+        $wallet = $wallet_id;
         
-
+        
         // Create the transaction
         $transaction = new Transaction();
         $transaction->customer_id = $customer->id;
-        $transaction->wallet_id = $wallet->id; // Assuming fetching the first wallet
+        $transaction->wallet_id = $wallet_id; // Assuming fetching the first wallet
         $transaction->transaction_type_id = $request->input('transactionType');
         $transaction->transaction_category_id = $request->input('transactionCategory');
         $transaction->amount = $request->input('amount');
@@ -64,7 +64,7 @@ class TransactionController extends Controller
         $transaction->save();
 
         // Redirect back to the wallet details page or any other page as needed
-        return redirect()->route('walletDetails', ['customer_id' => $customer->id, 'wallet_id' => $wallet->id])->with('success', 'Transaction added successfully!');
+        return redirect()->route('walletDetails', ['customer_id' => $customer->id, 'wallet_id' => $wallet_id])->with('success', 'Transaction added successfully!');
     }
 
     /**

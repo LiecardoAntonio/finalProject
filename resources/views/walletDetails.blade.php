@@ -70,7 +70,7 @@
           @endforeach
       </table>
 
-      <form class="transaction-form" action="{{route('transaction.store')}}" method="post">
+      <form class="transaction-form" action="{{ route('transaction.store', ['wallet_id' => $wallet->id]) }}" method="post">
         @csrf
         <label class="form-title">Input a new transaction</label>
         <div class="amount">
